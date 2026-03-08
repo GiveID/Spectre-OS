@@ -44,3 +44,10 @@ run_archiso -u -i output/spectre-os-*.iso
 - AUR packages (metasploit, amass, etc.) require `spectre-tools-install` post-boot
 - Geist font not in Arch repos; use IBM Plex Mono or install Geist manually
 - Plymouth custom theme requires additional initramfs setup
+
+## CI/CD Fixes (GitHub Actions)
+
+- **syslinux**: Must be in packages.x86_64 for BIOS boot. Use LF line endings (no CRLF).
+- **memtest86+, memtest86+-efi, edk2-shell**: Added to suppress mkarchiso warnings; provide memory test and UEFI shell.
+- **Line endings**: Workflow strips CR from .sh, packages.x86_64, profiledef.sh before build.
+- **Verification**: build.sh verifies syslinux in package list before mkarchiso; fails early with cat -A dump if missing.
