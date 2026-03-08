@@ -1,0 +1,30 @@
+name: Build Spectre ISO
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install archiso
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y arch-install-scripts curl wget
+
+      - name: Install archiso via Docker
+        run: |
+          docker run --privileged --rm \
+            -v ${{ github.workspace }}:/spectre \
+            archlinux:latest \
+            bash -c "pacman -Sy --noconfirm archiso && cd /spectre && bash build.sh"
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: spectre-iso
+          path: "*.iso"
