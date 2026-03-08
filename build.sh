@@ -32,7 +32,8 @@ cp "${SCRIPT_DIR}/packages.x86_64" "${ARCHLIVE}/"
 
 # Copy airootfs customizations
 if [[ -d "${SCRIPT_DIR}/airootfs" ]]; then
-    rsync -a "${SCRIPT_DIR}/airootfs/" "${ARCHLIVE}/airootfs/"
+    mkdir -p "${ARCHLIVE}/airootfs"
+    cp -a "${SCRIPT_DIR}/airootfs"/. "${ARCHLIVE}/airootfs/"
 fi
 
 # Update boot configs for Spectre branding
