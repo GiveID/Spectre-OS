@@ -1,0 +1,11 @@
+[Unit]
+Description=Spectre OS - First boot setup
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/spectre-init.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
