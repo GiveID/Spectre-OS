@@ -44,7 +44,7 @@ done
 # Build
 echo "[*] Building ISO (this may take 15-30 minutes)..."
 mkdir -p "${OUTPUT_DIR}"
-sudo mkarchiso -v -r -w "${WORK_DIR}" -o "${OUTPUT_DIR}" "${ARCHLIVE}"
+mkarchiso -v -r -w "${WORK_DIR}" -o "${OUTPUT_DIR}" "${ARCHLIVE}"
 
 echo ""
 echo "[+] Build complete. ISO location:"
