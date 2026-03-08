@@ -41,13 +41,14 @@ for f in "${ARCHLIVE}"/grub/*.cfg "${ARCHLIVE}"/syslinux/*.cfg "${ARCHLIVE}"/efi
     [[ -f "$f" ]] && sed -i 's/Arch Linux/Spectre OS/g; s/archlinux/spectre/g' "$f"
 done
 
-# Verify syslinux is in package list (mkarchiso requirement for BIOS boot)
-if ! grep -q '^syslinux$' "${ARCHLIVE}/packages.x86_64" 2>/dev/null; then
-    echo "ERROR: syslinux is missing from packages.x86_64"
-    echo "First 25 lines of ${ARCHLIVE}/packages.x86_64:"
-    head -25 "${ARCHLIVE}/packages.x86_64" | cat -A
-    exit 1
-fi
+# Ensure required boot packages are in package list (mkarchiso requirement)
+sed -i 's/\r$//' "${ARCHLIVE}/packages.x86_64"
+for pkg in syslinux grub; do
+    if ! grep -qE "^${pkg}$" "${ARCHLIVE}/packages.x86_64"; then
+        echo "[*] Adding required package: ${pkg}"
+        echo "${pkg}" >> "${ARCHLIVE}/packages.x86_64"
+    fi
+done
 
 # Build
 echo "[*] Building ISO (this may take 15-30 minutes)..."
