@@ -37,7 +37,7 @@ if [[ -d "${SCRIPT_DIR}/airootfs" ]]; then
 fi
 
 # Update boot configs for Spectre branding
-for f in "${ARCHLIVE}"/grub/*.cfg "${ARCHLIVE}"/syslinux/*.cfg "${ARCHLIVE}"/efiboot/loader/entries/*.conf 2>/dev/null; do
+for f in "${ARCHLIVE}"/grub/*.cfg "${ARCHLIVE}"/syslinux/*.cfg "${ARCHLIVE}"/efiboot/loader/entries/*.conf; do
     [[ -f "$f" ]] && sed -i 's/Arch Linux/Spectre OS/g; s/archlinux/spectre/g' "$f"
 done
 
