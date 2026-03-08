@@ -20,7 +20,6 @@ file_permissions=(
   ["/etc/gshadow"]="0:0:400"
   ["/root"]="0:0:750"
   ["/etc/spectre"]="0:0:755"
-  ["/var/log/spectre"]="0:0:755"
   ["/usr/local/bin/spectre-harden.sh"]="0:0:755"
   ["/usr/local/bin/spectre-init.sh"]="0:0:755"
   ["/usr/local/bin/anon"]="0:0:755"
