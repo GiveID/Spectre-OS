@@ -48,7 +48,7 @@ man-pages
 vim
 nano
 git
-bind-tools
+bind
 curl
 wget
 terminus-font
@@ -78,7 +78,7 @@ alacritty
 feh
 
 # Fonts
-ttf-ibm-plex-mono
+ttf-ibm-plex
 ttf-font-awesome
 noto-fonts
 
@@ -86,7 +86,7 @@ noto-fonts
 nmap
 masscan
 wireshark-cli
-netcat-openbsd
+openbsd-netcat
 socat
 python
 python-pip
