@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux:latest
+      options: --privileged
     steps:
       - uses: actions/checkout@v4
       - name: Install archiso and boot dependencies
@@ -13,7 +14,7 @@ jobs:
           pacman -Sy --noconfirm archiso syslinux grub
       - name: Build ISO
         run: |
-          find . -name "*.sh" -exec sed -i 's/\r$//' {} \;
+          find . -type f \( -name "*.sh" -o -name "packages.x86_64" -o -name "profiledef.sh" \) -exec sed -i 's/\r$//' {} \;
           chmod +x build.sh
           ./build.sh
       - name: Upload ISO
