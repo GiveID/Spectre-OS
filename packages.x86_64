@@ -1,5 +1,7 @@
 # Spectre OS - Full package list (releng boot base + Spectre tooling)
-# Boot and base (archiso requirements)
+# Boot and base (archiso requirements) - syslinux/grub must be present for BIOS/UEFI
+syslinux
+grub
 base
 base-devel
 linux
@@ -12,8 +14,6 @@ reflector
 amd-ucode
 intel-ucode
 efibootmgr
-grub
-syslinux
 squashfs-tools
 xorriso
 dosfstools
