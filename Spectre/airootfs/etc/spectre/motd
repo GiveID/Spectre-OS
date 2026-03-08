@@ -1,3 +1,0 @@
-Spectre OS - Wraith
-hostname: %h | uptime: %u | last: %l
-threat: %p listening ports

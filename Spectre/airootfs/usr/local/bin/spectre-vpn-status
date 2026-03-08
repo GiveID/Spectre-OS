@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-# VPN/Tor status for Polybar - colored output
-if systemctl is-active --quiet tor 2>/dev/null; then
-    echo "%{F#00ffe1}TOR%{F-}"
-elif ip route 2>/dev/null | grep -qE 'tun|wg'; then
-    echo "%{F#00ffe1}VPN%{F-}"
-else
-    echo "%{F#ff4c4c}EXPOSED%{F-}"
-fi
