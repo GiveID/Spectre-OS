@@ -1,30 +1,34 @@
 #!/usr/bin/env bash
 # Spectre OS - archiso customize_airootfs.sh
 # Runs during ISO build in chroot
+# NOTE: customize_airootfs.sh is deprecated in archiso; consider migrating to systemd oneshot.
 
-set -euo pipefail
+set +e
 
 # Releng provides arch user via passwd; mkarchiso copies skel to home
 # Ensure arch exists for live session
 id arch &>/dev/null || (useradd -m -G wheel -s /usr/bin/zsh arch && echo "arch:arch" | chpasswd -c SHA512)
 
 # Ensure arch home has our configs (skel is copied by mkarchiso, but we overlay late)
+mkdir -p /home/arch
 cp -rn /etc/skel/. /home/arch/ 2>/dev/null || true
-chown -R arch:arch /home/arch 2>/dev/null || true
+[ -d /home/arch ] && chown -R arch:arch /home/arch 2>/dev/null || true
 
 # Spectre config dirs
 mkdir -p /etc/spectre /var/log/spectre
-chmod 755 /etc/spectre /var/log/spectre
+[ -d /etc/spectre ] && chmod 755 /etc/spectre
+[ -d /var/log/spectre ] && chmod 755 /var/log/spectre
 
-# Make scripts executable
-chmod +x /usr/local/bin/spectre-harden.sh /usr/local/bin/spectre-init.sh
-chmod +x /usr/local/bin/anon /usr/local/bin/opsec /usr/local/bin/recon /usr/local/bin/exfil
-chmod +x /usr/local/bin/spectre-tools-install /usr/local/bin/spectre-wallpaper /usr/local/bin/spectre-vpn-status
-chmod +x /etc/spectre/motd.sh
-chmod +x /home/arch/.config/bspwm/bspwmrc
-chmod +x /home/arch/.config/polybar/launch.sh
-chmod +x /home/arch/.config/polybar/scripts/vpn-status.sh
-chmod +x /home/arch/.config/spectre/scripts/wallpaper.sh
+# Make scripts executable (guard: mkdir -p parent, [ -f ] before chmod)
+chmod +x /usr/local/bin/spectre-harden.sh /usr/local/bin/spectre-init.sh 2>/dev/null || true
+chmod +x /usr/local/bin/anon /usr/local/bin/opsec /usr/local/bin/recon /usr/local/bin/exfil 2>/dev/null || true
+chmod +x /usr/local/bin/spectre-tools-install /usr/local/bin/spectre-wallpaper /usr/local/bin/spectre-vpn-status 2>/dev/null || true
+[ -f /etc/spectre/motd.sh ] && chmod +x /etc/spectre/motd.sh
+mkdir -p /home/arch/.config/bspwm /home/arch/.config/polybar/scripts /home/arch/.config/spectre/scripts
+[ -f /home/arch/.config/bspwm/bspwmrc ] && chmod +x /home/arch/.config/bspwm/bspwmrc
+[ -f /home/arch/.config/polybar/launch.sh ] && chmod +x /home/arch/.config/polybar/launch.sh
+[ -f /home/arch/.config/polybar/scripts/vpn-status.sh ] && chmod +x /home/arch/.config/polybar/scripts/vpn-status.sh
+[ -f /home/arch/.config/spectre/scripts/wallpaper.sh ] && chmod +x /home/arch/.config/spectre/scripts/wallpaper.sh
 
 # Python deps for wallpaper and tools
 pip install --break-system-packages numpy matplotlib 2>/dev/null || \
