@@ -8,9 +8,9 @@ jobs:
       image: archlinux:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install archiso
+      - name: Install archiso and boot dependencies
         run: |
-          pacman -Sy --noconfirm archiso
+          pacman -Sy --noconfirm archiso syslinux grub
       - name: Build ISO
         run: |
           find . -name "*.sh" -exec sed -i 's/\r$//' {} \;
