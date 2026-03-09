@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Spectre OS - BSPWM session launcher (for LightDM)
+export XDG_CURRENT_DESKTOP=bspwm
+sxhkd &
+exec bspwm

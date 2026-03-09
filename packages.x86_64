@@ -67,7 +67,7 @@ libxrandr
 libxcursor
 libxi
 
-# Desktop - BSPWM stack
+# Desktop - BSPWM stack + display manager
 bspwm
 sxhkd
 polybar
@@ -76,6 +76,9 @@ rofi
 dunst
 alacritty
 feh
+lightdm
+lightdm-gtk-greeter
+xterm
 
 # Fonts
 ttf-ibm-plex

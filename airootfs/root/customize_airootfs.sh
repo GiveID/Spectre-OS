@@ -63,3 +63,13 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime 2>/dev/null || true
 
 # Disable reflector timer in live (we use our own)
 systemctl disable reflector.timer 2>/dev/null || true
+
+# Enable LightDM (graphical login - no startx needed)
+systemctl enable lightdm.service
+systemctl set-default graphical.target 2>/dev/null || true
+
+# Enable first-boot setup
+systemctl enable spectre-firstboot.service
+
+# Make session script executable
+chmod +x /usr/local/bin/spectre-session /usr/local/bin/spectre-firstboot.sh

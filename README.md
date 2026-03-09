@@ -29,11 +29,11 @@ sudo dd if=output/spectre-os-*.iso of=/dev/sdX bs=4M status=progress
 
 ### First Boot
 
-1. Boot from USB. Login: `arch` / `arch` (or `root` / `root`).
-2. Start desktop: `startx`
-3. Run first-boot setup: `spectre-init`
-4. Run hardening: `sudo spectre-harden`
-5. Install additional tools from AUR: `spectre-tools-install`
+1. Boot from USB — **LightDM graphical login** appears automatically.
+2. Log in: `arch` / `arch` (or `root` / `root`).
+3. BSPWM desktop starts. **Super + Enter** opens terminal, **Super + Space** opens app launcher.
+4. In a terminal: `spectre-init` then `sudo spectre-harden`
+5. Optional: `spectre-tools-install` for AUR packages
 
 ---
 
