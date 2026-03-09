@@ -9,10 +9,12 @@ set +e
 # Ensure arch exists for live session
 id arch &>/dev/null || (useradd -m -G wheel -s /usr/bin/zsh arch && echo "arch:arch" | chpasswd -c SHA512)
 
-# Ensure arch home has our configs (skel is copied by mkarchiso, but we overlay late)
-mkdir -p /home/arch
-cp -rn /etc/skel/. /home/arch/ 2>/dev/null || true
-[ -d /home/arch ] && chown -R arch:arch /home/arch 2>/dev/null || true
+# Ensure arch home has our configs - copy skel explicitly (mkarchiso order can vary)
+mkdir -p /home/arch/.config
+cp -r /etc/skel/.config/bspwm /etc/skel/.config/sxhkd /etc/skel/.config/polybar /etc/skel/.config/picom /etc/skel/.config/rofi /etc/skel/.config/alacritty /etc/skel/.config/dunst /etc/skel/.config/spectre /etc/skel/.config/nvim /home/arch/.config/ 2>/dev/null || true
+cp /etc/skel/.xinitrc /etc/skel/.xprofile /etc/skel/.zshrc /home/arch/ 2>/dev/null || true
+cp /etc/skel/.config/starship.toml /home/arch/.config/ 2>/dev/null || true
+chown -R arch:arch /home/arch
 
 # Spectre config dirs
 mkdir -p /etc/spectre /var/log/spectre
