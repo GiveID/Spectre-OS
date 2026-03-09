@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Spectre OS - Install AUR tools not in official repos
+# Run after base install: spectre-tools-install
+# Requires: base-devel, git
+
+set -euo pipefail
+
+AUR_PACKAGES=(
+    theharvester
+    amass
+    subfinder
+    httpx
+    nuclei
+    metasploit-framework
+    sqlmap
+    ffuf
+    gobuster
+    responder
+    bettercap
+    crackmapexec
+    evil-winrm
+    maltego
+)
+
+echo "[*] Spectre OS - AUR tools installer"
+echo "[*] This installs paru and builds AUR packages. May take 30+ minutes."
+read -rp "Continue? [y/N] " ans
+[[ "${ans,,}" != "y" && "${ans,,}" != "yes" ]] && exit 0
+
+# Install paru if missing
+if ! command -v paru &>/dev/null; then
+    echo "[*] Installing paru..."
+    cd /tmp
+    git clone https://aur.archlinux.org/paru-bin.git 2>/dev/null || true
+    cd paru-bin && makepkg -si --noconfirm
+    cd /tmp && rm -rf paru-bin
+fi
+
+echo "[*] Installing AUR packages..."
+paru -S --noconfirm "${AUR_PACKAGES[@]}" 2>/dev/null || {
+    echo "[!] Some packages may have failed. Install manually: paru -S <pkg>"
+}
+
+echo "[+] Done. Run 'recon <domain>' to test."

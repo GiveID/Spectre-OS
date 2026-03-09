@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Spectre OS
+Comment=BSPWM tiling window manager
+Exec=/usr/local/bin/spectre-session
+Type=Application
+DesktopNames=bspwm
