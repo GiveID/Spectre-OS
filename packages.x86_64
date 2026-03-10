@@ -79,10 +79,17 @@ network-manager-applet
 thunar
 polkit-gnome
 xterm
+firefox
+imv
+zathura
+zathura-pdf-mupdf
+mpv
+imagemagick
 
 # Fonts
 ttf-ibm-plex
 ttf-font-awesome
+ttf-dejavu
 noto-fonts
 
 # Network and recon
