@@ -79,6 +79,8 @@ network-manager-applet
 thunar
 polkit-gnome
 xterm
+nwg-dock-hyprland
+nwg-drawer
 firefox
 imv
 zathura
