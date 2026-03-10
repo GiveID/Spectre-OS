@@ -33,6 +33,7 @@ file_permissions=(
   ["/usr/local/bin/spectre-session"]="0:0:755"
   ["/usr/local/bin/spectre-firstboot.sh"]="0:0:755"
   ["/usr/local/bin/spectre-boot-intro.sh"]="0:0:755"
+  ["/usr/local/bin/spectre-power-menu"]="0:0:755"
   ["/etc/systemd/system/spectre-mac-randomize.service"]="0:0:644"
   ["/etc/systemd/system/spectre-firstboot.service"]="0:0:644"
   ["/etc/systemd/system/spectre-boot-intro.service"]="0:0:644"

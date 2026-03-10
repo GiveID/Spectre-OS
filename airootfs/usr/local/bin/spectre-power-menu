@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Spectre OS - Wofi-based power/session menu (no AUR deps)
+STYLE="$HOME/.config/wofi/style.css"
+[[ -f "$STYLE" ]] && WOFI_OPTS="--style $STYLE" || WOFI_OPTS=""
+CHOICE=$(printf '%s\n' "Lock" "Logout" "Suspend" "Reboot" "Shutdown" | \
+  wofi --dmenu -p "Power" $WOFI_OPTS 2>/dev/null)
+case "$CHOICE" in
+  Lock)   swaylock ;;
+  Logout) loginctl terminate-user "$USER" ;;
+  Suspend) systemctl suspend ;;
+  Reboot) systemctl reboot ;;
+  Shutdown) systemctl poweroff ;;
+esac

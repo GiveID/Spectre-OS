@@ -11,7 +11,7 @@ id arch &>/dev/null || (useradd -m -G wheel -s /usr/bin/zsh arch && echo "arch:a
 
 # Ensure arch home has our configs - copy skel explicitly (mkarchiso order can vary)
 mkdir -p /home/arch/.config
-cp -r /etc/skel/.config/hypr /etc/skel/.config/waybar /etc/skel/.config/wofi /etc/skel/.config/wlogout /etc/skel/.config/alacritty /etc/skel/.config/dunst /etc/skel/.config/spectre /etc/skel/.config/nvim /home/arch/.config/ 2>/dev/null || true
+cp -r /etc/skel/.config/hypr /etc/skel/.config/waybar /etc/skel/.config/wofi /etc/skel/.config/alacritty /etc/skel/.config/dunst /etc/skel/.config/spectre /etc/skel/.config/nvim /home/arch/.config/ 2>/dev/null || true
 cp /etc/skel/.zshrc /home/arch/ 2>/dev/null || true
 cp /etc/skel/.config/starship.toml /home/arch/.config/ 2>/dev/null || true
 chown -R arch:arch /home/arch
@@ -89,4 +89,4 @@ printf '%s\n' '[Unit]' 'After=spectre-boot-intro.service' > /etc/systemd/system/
 systemctl enable spectre-firstboot.service
 
 # Make session and boot intro scripts executable
-chmod +x /usr/local/bin/spectre-session /usr/local/bin/spectre-firstboot.sh /usr/local/bin/spectre-boot-intro.sh
+chmod +x /usr/local/bin/spectre-session /usr/local/bin/spectre-firstboot.sh /usr/local/bin/spectre-boot-intro.sh /usr/local/bin/spectre-power-menu
