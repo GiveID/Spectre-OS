@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Spectre OS (Hyprland)
+Comment=Hyprland - Dynamic tiling Wayland compositor
+Exec=Hyprland
+Type=Application
+DesktopNames=Hyprland

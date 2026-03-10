@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Spectre OS - Hyprland session (for SDDM / wayland-sessions)
+export XDG_CURRENT_DESKTOP=Hyprland
+exec Hyprland

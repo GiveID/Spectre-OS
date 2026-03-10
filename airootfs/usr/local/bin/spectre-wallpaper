@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""
+Spectre OS - Procedural wallpaper generator
+Dark navy topology/circuit aesthetic. Run at first boot.
+Uses only numpy + matplotlib (no scipy).
+"""
+import os
+import sys
+import subprocess
+
+try:
+    import numpy as np
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+except ImportError:
+    try:
+        from PIL import Image
+        img = Image.new('RGB', (1920, 1080), color=(10, 10, 15))
+        out = os.path.expanduser('~/.config/spectre/wallpaper.png')
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        img.save(out)
+        if subprocess.run(['which', 'feh'], capture_output=True).returncode == 0:
+            subprocess.run(['feh', '--bg-fill', out], capture_output=True)
+        sys.exit(0)
+    except ImportError:
+        print("Install: pip install numpy matplotlib pillow")
+        sys.exit(1)
+
+def simple_noise(shape, scale=8):
+    """Layered noise without scipy."""
+    h, w = shape
+    np.random.seed(42)
+    arr = np.zeros((h, w))
+    for octave in range(4):
+        sh = (max(1, h // scale), max(1, w // scale))
+        noise = np.random.rand(*sh)
+        # Upsample with repeat
+        ny, nx = noise.shape
+        repeat_y, repeat_x = h // ny + 1, w // nx + 1
+        up = np.tile(noise, (repeat_y, repeat_x))[:h, :w]
+        arr += (0.5 ** octave) * up
+        scale //= 2
+        scale = max(1, scale)
+    arr = (arr - arr.min()) / (arr.max() - arr.min() + 1e-9)
+    return arr
+
+def main():
+    w, h = 1920, 1080
+    bg = np.array([10, 10, 15]) / 255
+
+    noise = simple_noise((h, w), scale=64)
+
+    r = bg[0] + noise * 0.04
+    g = bg[1] + noise * 0.06
+    b = bg[2] + noise * 0.10
+
+    # Circuit-trace lines
+    step_h, step_w = 60, 100
+    for i in range(0, h, step_h):
+        lo, hi = max(0, i - 1), min(h, i + 2)
+        g[lo:hi, :] = np.clip(g[lo:hi, :] + 0.02, 0, 1)
+    for i in range(0, w, step_w):
+        lo, hi = max(0, i - 1), min(w, i + 2)
+        g[:, lo:hi] = np.clip(g[:, lo:hi] + 0.015, 0, 1)
+
+    rgb = np.stack([r, g, b], axis=-1)
+    rgb = np.clip(rgb, 0, 1)
+
+    fig, ax = plt.subplots(figsize=(w/100, h/100), dpi=100)
+    ax.imshow(rgb)
+    ax.axis('off')
+    fig.subplots_adjust(0, 0, 1, 1)
+    out = os.path.expanduser('~/.config/spectre/wallpaper.png')
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    fig.savefig(out, dpi=100, bbox_inches='tight', pad_inches=0)
+    plt.close()
+
+    for cmd in ['hyprpaper', 'feh']:
+        if subprocess.run(['which', cmd], capture_output=True).returncode == 0:
+            if cmd == 'hyprpaper':
+                # Hyprpaper uses config; wallpaper-hypr.sh handles it
+                break
+            subprocess.run([cmd, '--bg-fill', out], capture_output=True)
+            break
+    return out
+
+if __name__ == '__main__':
+    out = main()
+    print(f"Wallpaper: {out}")

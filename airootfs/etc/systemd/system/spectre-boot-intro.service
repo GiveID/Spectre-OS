@@ -1,0 +1,18 @@
+[Unit]
+Description=Spectre OS Boot Intro (ASCII + sound)
+DefaultDependencies=no
+Before=sddm.service display-manager.service
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/spectre-boot-intro.sh
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target
