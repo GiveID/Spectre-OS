@@ -74,6 +74,11 @@ grim
 slurp
 wl-clipboard
 playerctl
+wlogout
+swaylock
+network-manager-applet
+thunar
+polkit-gnome
 xterm
 
 # Fonts

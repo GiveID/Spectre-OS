@@ -11,7 +11,7 @@ id arch &>/dev/null || (useradd -m -G wheel -s /usr/bin/zsh arch && echo "arch:a
 
 # Ensure arch home has our configs - copy skel explicitly (mkarchiso order can vary)
 mkdir -p /home/arch/.config
-cp -r /etc/skel/.config/hypr /etc/skel/.config/waybar /etc/skel/.config/wofi /etc/skel/.config/alacritty /etc/skel/.config/dunst /etc/skel/.config/spectre /etc/skel/.config/nvim /home/arch/.config/ 2>/dev/null || true
+cp -r /etc/skel/.config/hypr /etc/skel/.config/waybar /etc/skel/.config/wofi /etc/skel/.config/wlogout /etc/skel/.config/alacritty /etc/skel/.config/dunst /etc/skel/.config/spectre /etc/skel/.config/nvim /home/arch/.config/ 2>/dev/null || true
 cp /etc/skel/.zshrc /home/arch/ 2>/dev/null || true
 cp /etc/skel/.config/starship.toml /home/arch/.config/ 2>/dev/null || true
 chown -R arch:arch /home/arch
@@ -62,9 +62,16 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime 2>/dev/null || true
 # Disable reflector timer in live (we use our own)
 systemctl disable reflector.timer 2>/dev/null || true
 
-# SDDM config (Hyprland/Wayland)
+# Prevent boot hang: time-wait-sync blocks indefinitely without NTP on live ISO
+systemctl mask systemd-time-wait-sync.service 2>/dev/null || true
+
+# SDDM config (Hyprland/Wayland) - autologin, no password prompt
 mkdir -p /etc/sddm.conf.d
 cat > /etc/sddm.conf.d/spectre.conf << 'SDDM'
+[Autologin]
+User=arch
+Session=spectre-hyprland.desktop
+
 [General]
 Numlock=on
 SDDM
